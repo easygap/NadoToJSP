@@ -1,64 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 <style>
-#logo2Img {
-	max-width: 90%; /* ÀÌ¹ÌÁöÀÇ ÃÖ´ë ³Êºñ¸¦ ºÎ¸ð ¿ä¼ÒÀÎ mainDiv¿¡ ¸Â°Ô ¼³Á¤ÇÕ´Ï´Ù. */
-	max-height: 90%; /* ÀÌ¹ÌÁöÀÇ ÃÖ´ë ³ôÀÌµµ ºÎ¸ð ¿ä¼Ò¿¡ ¸Â°Ô ¼³Á¤ÇÕ´Ï´Ù. */
-	position: relative; /* À§Ä¡¸¦ Á¶Á¤ÇÏ±â À§ÇØ positionÀ» ¼³Á¤ÇÕ´Ï´Ù. */
-}
 
-#mainDiv {
-	width: 100%; /* È­¸é ÀüÃ¼ ³Êºñ¸¦ »ç¿ëÇÕ´Ï´Ù. */
-	height: 20em;
-	background: #3F72AF;
-	display: flex;
-	justify-content: center; /* ³»ºÎ ¿ä¼Ò¸¦ °¡¿îµ¥ Á¤·ÄÇÕ´Ï´Ù. */
-	align-items: center; /* ³»ºÎ ¿ä¼Ò¸¦ °¡¿îµ¥ Á¤·ÄÇÕ´Ï´Ù. */
-	margin: 0;
-	padding: 0;
-}
-
-.mainBtn {
-	width: 15em;
-	height: 15em;
-	border-radius: 50%; /* ¹ÝÁö¸§ °ªÀ» ¹öÆ° Å©±â¿¡ µû¶ó Á¶ÀýÇÏ¼¼¿ä */
-	background-color: #fff; /* ¹öÆ° ¹è°æ»ö */
-	color: #000;
-	border: none;
-	text-align: center;
-	text-decoration: none;
-	font-size: 16px;
-	margin: 3.5em 21.5em 0.5em 21.5em;
-}
-
-.mainBtn:hover {
-	box-shadow: 5px 5px 20px #B1CBE1;
-	font-weight: bold;
-}
-
-#btnDiv {
-	width: 100%;
-	float: left;
-	justify-content: space-between;
-	margin-top: 8em;
-	text-align: center; /* ¹öÆ°À» °¡¿îµ¥ Á¤·ÄÇÕ´Ï´Ù. */
-}
 
 </style>
-<div id="mainDiv">
-		<!-- ³×ºñ°ÔÀÌ¼Ç ¹Ù -->
+<!-- ë„¤ë¹„ê²Œì´ì…˜ ë°” -->
+<div>
 		<jsp:include page="navbar.jsp"></jsp:include>
-	<a href="/Nado/main"> <img src="/images/logo.png"
+</div>
+<div id="mainDiv">	
+	<a href="/Nado/board/"> <img src="../resources/logo.png"
 		id="logo2Img" alt="nadoIMG">
 	</a>
 </div>
 <div id="btnDiv">
-		<a th:href="/nado/list">
-			<button type="button" class="mainBtn">Ä¿¹Â´ÏÆ¼</button>
+		<a href="/Nado/board/list">
+			<button type="button" class="mainBtn">ì»¤ë®¤ë‹ˆí‹°</button>
 		</a>
 </div>
 </html>

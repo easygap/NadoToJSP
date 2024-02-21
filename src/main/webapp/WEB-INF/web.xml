@@ -4,4 +4,24 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  <context-param>
+		<param-name>OracleDriver</param-name>
+		<param-value>oracle.jdbc.OracleDriver</param-value>
+	</context-param>
+	<context-param>
+		<param-name>OracleURL</param-name>
+		<param-value>c##nado</param-value>
+	</context-param>
+	<context-param>
+		<param-name>OraclePwd</param-name>
+		<param-value>nado</param-value>
+	</context-param>
+	<context-param>
+		<param-name>POSTS_PER_PAGE</param-name>
+		<param-value>10</param-value>
+	</context-param>
+	<context-param>
+		<param-name>PAGES_PER_BLOCK</param-name>
+		<param-value>10</param-value>
+	</context-param>
 </web-app>

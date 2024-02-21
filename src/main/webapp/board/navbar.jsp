@@ -1,34 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-    <!-- BootStrap css ��� -->
+    <!-- BootStrap css 사용 -->
 	<link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
 	crossorigin="anonymous">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
         <title>navigation bar</title>
-
-        <!-- Bootstrap core CSS -->
-        <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Custom styles for this template -->
-        <link href="/css/simple-sidebar.css" rel="stylesheet">
-
-        <!-- Bootstrap core JavaScript -->
-        <script src="/vendor/jquery/jquery.min.js"></script>
-        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- css 양식 가져오기 -->
+    <link href="../css/styles.css" rel="stylesheet" />
 
     </head>
 
-    <body style="background-color: #DBE2EF !important;">
+    <body id="navbar">
 
     <div class="d-flex" id="wrapper">
 
@@ -38,14 +25,14 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav">
                         <li class="nav-item active">
-                            <a href="/Nado/main}">
-                                <img src="../images/logo2.png" style="width:10em" alt="�ΰ�">
+                            <a href="/Nado/board/">
+                                <img src="../resources/logo.png" style="width:10em" alt="로고">
                             </a>
                         </li>
                         <li class="nav-item active">
-                            <!-- Ŀ�´�Ƽ -->
-                            <a href="/Nado/list}">
-                                <img src="../images/Community.png" alt="�ΰ�" style="margin-left:5em; width:6em;">
+                            <!-- 커뮤니티 -->
+                            <a href="/Nado/board/list">
+                            	<img src="../resources/Community.png" alt="로고" style="margin-left:5em; width:6em;">
                             </a>
                         </li>
                     </ul>
@@ -56,7 +43,13 @@
 
     </div>
     
-    <!-- BootStrap javascript ��� -->
+    <!-- Jquery 사용 -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+	<!-- BootStrap javascript 사용 -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"

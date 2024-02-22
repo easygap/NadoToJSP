@@ -10,7 +10,6 @@
 <!-- 네비게이션 바 -->
 <div>
 		<jsp:include page="navbar.jsp"></jsp:include>
-</div>
 <div id="mainDiv">	
 	<a href="/Nado/board/"> <img src="../resources/logo.png"
 		id="logo2Img" alt="nadoIMG">
@@ -20,5 +19,6 @@
 		<a href="/Nado/board/list">
 			<button type="button" class="mainBtn">커뮤니티</button>
 		</a>
+</div>
 </div>
 </html>

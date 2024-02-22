@@ -16,10 +16,12 @@
 		<param-name>OraclePwd</param-name>
 		<param-value>nado</param-value>
 	</context-param>
+	<!-- Board_list(게시글 목록)에서 페이지 당 보여지는 게시글의 갯수 -->
 	<context-param>
 		<param-name>POSTS_PER_PAGE</param-name>
 		<param-value>10</param-value>
 	</context-param>
+	<!-- Board_list(게시글 목록)에서 보여지는 페이지 블락에 대한 갯수 -->
 	<context-param>
 		<param-name>PAGES_PER_BLOCK</param-name>
 		<param-value>10</param-value>

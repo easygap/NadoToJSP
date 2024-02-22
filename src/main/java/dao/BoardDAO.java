@@ -7,6 +7,7 @@
  *      1) map : 게시글 키워드 검색을 위한 변수
  * 수정이력 :
  *      1) 2024.02.21 게시글 수 count 함수 추가
+ *      2) 2024.02.21 게시글 List 저장 함수 추가
  * 확인 사항 : 
  *      1) 
  */
@@ -38,6 +39,9 @@ public class BoardDAO extends DBConnPool{
 	DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 	LocalDateTime now = LocalDateTime.now();
 
+	/**
+	 * Description : 데이터베이스 연결
+	 */
 	public BoardDAO(){
 		try{
 			Context context = new InitialContext();
@@ -69,7 +73,7 @@ public class BoardDAO extends DBConnPool{
 			rs = stmt.executeQuery(query);
 			rs.next();
 			totalCount = rs.getInt(1);    //첫 번재 컬럼 값
-			System.out.println("게시판 게시글 수 로드 성공");
+			System.out.println("게시판 게시글 " + totalCount + "개 로드 성공");
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("**게시글 카운트 중 예외 발생**");
@@ -107,6 +111,8 @@ public class BoardDAO extends DBConnPool{
 				dto.setVew(rs.getInt("bbrd_vew"));
 				dto.setWr_date(rs.getDate("bbrd_wr_date"));
 				dto.setYn(rs.getString("bbrd_yn"));
+				
+				bbs.add(dto);
 			}
 		}catch(Exception e) {
 			System.out.println("게시물 조회 중 예외 발생");
@@ -115,6 +121,18 @@ public class BoardDAO extends DBConnPool{
 		return bbs;
 	}
 	
+	/**
+	 * Description : 게시글 작성
+	 */
+	public void createBoard(BoardDTO dto) {
+		String query = "INSERT INTO BBRD(BBRD_LST, BBRD_TTL, BBRD_CNTNS, BBRD_WRTER, BBRD_PWD "
+				     + ", BBRD_VEW, BBRD_WR_DATE)";
+	}
+	
+
+	/**
+	 * Description : 데이터베이스 연결 해제
+	 */
 	public void close(){
 		DBConnPool dbConnPool = new DBConnPool();
 		try{

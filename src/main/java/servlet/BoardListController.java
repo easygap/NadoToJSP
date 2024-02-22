@@ -1,3 +1,10 @@
+/**
+ * Description : 게시글 목록화 서블릿
+ * 작성일 : 2024.02.21
+ * 작성자 : ljs
+ * Input Argument:
+ *      1) map : 게시글 키워드 검색을 위한 변수
+ */
 package servlet;
 
 import java.io.IOException;
@@ -16,7 +23,7 @@ import dao.BoardDAO;
 import dto.BoardDTO;
 import utils.BoardPage;
 
-@WebServlet("/list")
+@WebServlet("/board/list")
 public class BoardListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

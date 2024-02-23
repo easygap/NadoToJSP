@@ -26,4 +26,9 @@
 		<param-name>PAGES_PER_BLOCK</param-name>
 		<param-value>10</param-value>
 	</context-param>
+	<!-- Board_write(게시글 작성)에서 파일 업로드 용량 제한 -->
+	<context-param>
+  		<param-name>maxPostSize</param-name>
+  		<param-value>2097152</param-value>
+    </context-param>
 </web-app>

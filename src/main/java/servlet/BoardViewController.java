@@ -1,0 +1,32 @@
+package servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import dao.BoardDAO;
+import dto.BoardDTO;
+
+@WebServlet("/board/view")
+public class BoardViewController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		BoardDAO dao = new BoardDAO();
+		
+		String lst = req.getParameter("lst");
+		dao.updateVisitCount(lst);    //조회수 1 증가
+		BoardDTO dto = dao.selectView(lst);
+		dao.close();
+		
+		dto.setCntns(dto.getCntns().replaceAll("\r\n", "<br/>"));    //줄바꿈 처리
+		
+		req.setAttribute("dto", dto);
+		req.getRequestDispatcher("../board/Board_view.jsp").forward(req, resp);
+	}
+
+}

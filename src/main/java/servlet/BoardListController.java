@@ -61,8 +61,9 @@ public class BoardListController extends HttpServlet {
 		
 		dao.close();    //DB연결 닫기
 		
+		
 		String pagingImg = BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, "../board/list");    //바로가기 영역 HTML 문자열
-		map.put("pagingImg", pagingImg);
+		map.put("pagingImg", pagingImg);    //Board_list.jsp에 전달할 매개변수
 		map.put("totalCount", totalCount);
 		map.put("pageSize", pageSize);
 		map.put("pageNum", pageNum);

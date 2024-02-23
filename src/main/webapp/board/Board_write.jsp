@@ -42,7 +42,7 @@
 					<div class="mb-3">
 							<label for="password">비밀번호</label> <input type="text"
 							style="width:300px;" class="form-control" name="pwd" id="password"
-							maxlength=20 placeholder="특수문자를 포함한 20자 히하로 입력.">
+							maxlength=20 placeholder="특수문자를 포함한 20자 이하로 입력.">
 					</div>
 					
 					<div class="mybtn">

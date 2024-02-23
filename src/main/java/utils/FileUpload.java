@@ -10,9 +10,10 @@ package utils;
 import javax.servlet.http.HttpServletRequest;
 
 import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.FileRenamePolicy;
 
 public class FileUpload {
-	public static MultipartRequest uploadFile(HttpServletRequest req, String saveDirectory, int maxPostSize) {
+	public static MultipartRequest uploadFile(HttpServletRequest req, String saveDirectory, int maxPostSize, FileRenamePolicy policy) {
 		try {    //파일 업로드
 			return new MultipartRequest(req, saveDirectory, maxPostSize, "UTF-8");
 		}catch(Exception e){    //업로드 실패

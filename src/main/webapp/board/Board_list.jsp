@@ -24,8 +24,9 @@
 					<table class="table">
 						<tr>
 							<td align="center"><select class="selectpicker" style="height:27px" name="searchField">
-									<option value="title">제목</option>
-									<option value="content">내용</option>
+									<option value="ttl">제목</option>
+									<option value="cntns">내용</option>
+									<option value="wrter">글쓴이</option>
 							</select> <input type="text" name="searchWord" /> <input type="submit"
 								value="검 색 하 기" class="searchB"/></td>
 						</tr>
@@ -58,14 +59,14 @@
 										<!-- 번호 --> ${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}
 									</td>
 									<td>
-										<!-- 제목(링크) --> <a href="/view?num=${ row.lst }">${ row.ttl }</a>
+										<!-- 제목(링크) --> <a href="/view?lst=${ row.lst }">${ row.ttl }</a>
 									</td>
 									<!-- 작성자 -->
 									<td>${ row.wrter }</td>
-									<!-- 날짜 -->
-									<td>${ row.wr_date }</td>
 									<!-- 조회수 -->
-									<td style="padding-left: 25px;">${ row.vew }</td>
+									<td>${ row.vew }</td>
+									<!-- 날짜 -->
+									<td style="padding-left: 25px;">${ row.wr_date }</td>
 								</tr>
 							</c:forEach>
 						</c:otherwise>
@@ -73,7 +74,7 @@
 					</thead>
 				</table>
 
-				<!-- 하단 메뉴(바로가기, 글쓰기) -->
+				<!-- 하단 메뉴(바로가기) -->
 				<table class="table">
 					<tr align="center">
 						<td>${ map.pagingImg }</td>

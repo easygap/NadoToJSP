@@ -10,6 +10,8 @@ public class BoardDTO {
 	private int vew;
 	private java.sql.Date wr_date;
 	private String yn;
+	private String file_nm;
+	
 	public int getLst() {
 		return lst;
 	}
@@ -57,5 +59,11 @@ public class BoardDTO {
 	}
 	public void setYn(String yn) {
 		this.yn = yn;
+	}	
+	public String getFile_nm() {
+		return file_nm;
+	}
+	public void setFile_nm(String file_nm) {
+		this.file_nm = file_nm;
 	}
 }

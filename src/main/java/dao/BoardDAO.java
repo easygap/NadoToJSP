@@ -29,6 +29,7 @@ import javax.sql.DataSource;
 
 import common.DBConnPool;
 import dto.BoardDTO;
+import dto.FilesDTO;
 
 public class BoardDAO extends DBConnPool{
 	DataSource dataSource;
@@ -65,7 +66,7 @@ public class BoardDAO extends DBConnPool{
 		int totalCount = 0;    //게시물 수를 담을 변수
 		String query = "SELECT COUNT(*) FROM bbrd";
 		if(map.get("searchWord") != null){
-			query += " WHERE " + map.get("searchField") + " " + " LIKE '%" + map.get("searchWord") + "%'";
+			query += " WHERE bbrd_" + map.get("searchField") + " " + " LIKE '%" + map.get("searchWord") + "%'";
 		}
 		
 		try{
@@ -90,15 +91,21 @@ public class BoardDAO extends DBConnPool{
 	 */
 	public List<BoardDTO> selectList(Map<String, Object> map){
 		List<BoardDTO> bbs = new Vector<BoardDTO>();    //결과(게시물 목록)를 담을 변수
-		String query = "SELECT * FROM bbrd ";
-		if(map.get("searchWord") != null){
-			query += " WHERE bbrd_" + map.get("searchField") + " " + " Like '%" + map.get("searchWord") + "%' ";
+		String query = "SELECT * FROM ( "
+					 + "SELECT Tb.*, ROWNUM rNum FROM ( "
+					 + "SELECT * FROM bbrd ";
+		if(map.get("searchWord") != null){    // 검색 조건이 있다면 WHERE절로 추가
+			query += " WHERE bbrd_" + map.get("searchField") + " Like '%" + map.get("searchWord") + "%' ";
 		}
-		query += " ORDER BY bbrd_lst DESC ";
-		
+		query += " ORDER BY bbrd_lst DESC "
+			   + ") Tb "
+			   + ") "
+			   + "WHERE rNum BETWEEN ? AND ?";    // 게시물 구간은 인파라미터로
 		try{
-			stmt = con.createStatement();    //쿼리문 생성
-			rs = stmt.executeQuery(query);    //쿼리 실행
+			psmt = con.prepareStatement(query);    // 동적 쿼리문 생성
+			psmt.setString(1, map.get("start").toString());    // 인파라미터 설정
+			psmt.setString(2, map.get("end").toString());
+			rs = psmt.executeQuery();    //쿼리 실행
 			
 			while(rs.next()) {    //결과를 순회하며 게시글 하나의 내용을 DTO에 저장
 				BoardDTO dto = new BoardDTO();
@@ -124,12 +131,122 @@ public class BoardDAO extends DBConnPool{
 	/**
 	 * Description : 게시글 작성
 	 */
-	public void createBoard(BoardDTO dto) {
+	public int createBoard(BoardDTO dto) {
+		int result = 0;
 		String query = "INSERT INTO BBRD(BBRD_LST, BBRD_TTL, BBRD_CNTNS, BBRD_WRTER, BBRD_PWD "
-				     + ", BBRD_VEW, BBRD_WR_DATE)";
+				     + ", BBRD_WR_DATE) "
+				     + "VALUES(bbrd_seq.NEXTVAL, ?, ?, ?, ?, sysdate)";
+		try{
+			psmt = con.prepareStatement(query);    //동적 쿼리문 생성
+			psmt.setString(1, dto.getTtl());
+			psmt.setString(2, dto.getCntns());
+			psmt.setString(3, dto.getWrter());
+			psmt.setString(4, dto.getPwd());
+			psmt.executeUpdate();    //Commit!
+			
+			result = 1;
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
+	/**
+	 * Description : 동일 파일 존재 여부 체크
+	 */
+	public char searchFile(String fileName) {
+		String query = "SELECT * FROM FILES WHERE file_nm = '" + fileName + "'";
+		char yn = 'n';
+		try{
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+			if(rs.next() == true)
+				yn = 'y';
 
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("**파일 조회 중 예외 발생**");
+		}
+		return yn;    //첨부 파일 존재 여부 리턴
+	}
+	
+	/**
+	 * Description : 가장 최근 업로드한 게시글 번호
+	 */
+	public int recentBord() {
+		int lst = 0;
+		String query = "SELECT BBRD_LST FROM BBRD WHERE bbrd_wr_date = (SELECT MAX(bbrd_wr_date) FROM BBRD)";
+		try {
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+			rs.next();
+			lst = rs.getInt(1);    //첫 번재 컬럼 값
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return lst;
+	}
+	
+	/**
+	 * Description : 파일 업로드
+	 */
+	public void uploadFile(FilesDTO dto) {
+		String query = "INSERT INTO FILES(FILE_LST, BBRD_LST, FILE_NM, FILE_PATH) "
+			     + "VALUES(file_seq.NEXTVAL, ?, ?, ?)";
+	try{
+		psmt = con.prepareStatement(query);    //동적 쿼리문 생성
+		psmt.setInt(1, dto.getBbrd_lst());
+		psmt.setString(2, dto.getFile_nm());
+		psmt.setString(3, dto.getFile_path());
+		psmt.executeUpdate();    //Commit!
+		} catch(Exception e){
+			e.printStackTrace();
+			}
+	}
+	
+	/**
+	 * Description : 파일 업로드
+	 */
+	public BoardDTO selectView(String lst){    //게시글 번호에 해당하는 게시글을 DTO에 담아 반환합니다.
+		BoardDTO dto = new BoardDTO();    //DTO 객체 생성
+		String query = "SELECT b.BBRD_TTL, b.BBRD_CNTNS, f.file_nm "
+					 + "FROM bbrd b JOIN files f "
+					 + "ON b.bbrd_lst=f.bbrd_lst "
+					 + "WHERE b.bbrd_lst = ?";
+		try{
+			psmt = con.prepareStatement(query);    //쿼리문 준비
+			psmt.setString(1, lst);    //인파라미터 설정
+			rs = psmt.executeQuery();    //쿼리문 실행
+			
+			if(rs.next()){    //결과를 DTO 객체에 저장
+				dto.setTtl(rs.getString(1));
+				dto.setCntns(rs.getString(2));
+				dto.setFile_nm(rs.getString(3));
+			}
+		}catch(Exception e){
+			System.out.println("**게시글 상세보기 중 예외 발생**");
+			e.printStackTrace();
+		}
+		return dto;
+	}
+	
+	/**
+	 * Description : 조회수 1 증가
+	 */
+	public void updateVisitCount(String lst){    //게시물 No.값에 해당하는 게시물의 조회수를 1 증가.
+		String query = "UPDATE bbrd SET "
+					 + "bbrd_vew = bbrd_vew + 1 "
+					 + "WHERE bbrd_lst = ?";
+		try{
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, lst);
+			psmt.executeQuery();
+		}catch(Exception e){
+			System.out.println("**게시글 조회수 증가 중 예외 발생**");
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Description : 데이터베이스 연결 해제
 	 */

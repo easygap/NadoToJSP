@@ -28,6 +28,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import common.DBConnPool;
+import domain.PassCheckVO;
 import dto.BoardDTO;
 import dto.FilesDTO;
 
@@ -231,11 +232,13 @@ public class BoardDAO extends DBConnPool{
 	/**
 	 * Description : 게시글 수정/삭제 시 비밀번호 검증
 	 */
-	public int checkPassword(BoardDTO dto){
-		int check = 0;    //비밀번호 일치 여부 리턴 값, 0은 비밀번호 불일치, 1은 비밀번호 일치
+	public Integer checkPassword(BoardDTO dto){
+		Integer check = 0;    //비밀번호 일치 여부 리턴 값, 0은 비밀번호 불일치, 1은 비밀번호 일치
 		String query = "SELECT bbrd_ttl, bbrd_cntns "
 					 + "FROM bbrd WHERE bbrd_lst = ? "
 					 + "AND (bbrd_pwd IS NULL OR bbrd_pwd = ?) ";
+		
+		PassCheckVO checkVo = new PassCheckVO();
 		try{
 			psmt = con.prepareStatement(query);
 			psmt.setInt(1, dto.getLst());
@@ -245,6 +248,7 @@ public class BoardDAO extends DBConnPool{
 			if(rs.next()){    //DB조회 결과 확인
 				check = 1;    //값이 조회된다면 비밀번호가 일치한 경우, check 값을 1로 변경
 			}
+			
 		}catch(Exception e){
 			System.out.println("**비밀번호 검증 중  예외 발생**");
 			e.printStackTrace();

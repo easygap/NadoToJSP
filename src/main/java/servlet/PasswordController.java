@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,13 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.BoardDAO;
+import domain.PassCheckVO;
 import dto.BoardDTO;
 
 @WebServlet("/board/password")
 public class PasswordController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		BoardDTO dto = new BoardDTO();
 		dto.setLst(Integer.parseInt(req.getParameter("lst")));
 		dto.setTtl(req.getParameter("ttl"));
@@ -30,11 +32,13 @@ public class PasswordController extends HttpServlet {
 		
 		BoardDAO dao = new BoardDAO();
 		
-		int check = dao.checkPassword(dto);
+		Integer check = dao.checkPassword(dto);
 		
 		System.out.println("check의 값은 : " + check);
 		
 		dao.close();
+		
+		return check;
 	}
 
 }

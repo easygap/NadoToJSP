@@ -23,7 +23,9 @@ public class BoardViewController extends HttpServlet {
 		BoardDTO dto = dao.selectView(lst);
 		dao.close();
 		
-		dto.setCntns(dto.getCntns().replaceAll("\r\n", "<br/>"));    //줄바꿈 처리
+		String cntns = dto.getCntns();
+		if(dto.getCntns() != null)
+			dto.setCntns(cntns.replaceAll("\r\n", "<br/>"));    //줄바꿈 처리
 		
 		req.setAttribute("dto", dto);
 		req.getRequestDispatcher("../board/Board_view.jsp").forward(req, resp);

@@ -8,6 +8,7 @@
 <title>게시판 게시글 상세보기</title>
 	<!-- css 양식 가져오기 -->
     <link href="../css/styles.css" rel="stylesheet" />
+    
 </head>
 <body>
 	<!-- 네비게이션 바 -->
@@ -18,8 +19,8 @@
 
 		<div class="container-fluid">
 			<div id="UND_DV"></div>
-			<!-- View.jsp 코드 시작 -->
-
+			
+			<!-- Board_view.jsp 코드 시작 -->
 			<table class="table"
 				style="text-align: left; border: 1px solid #dddddd">
 				<colgroup>
@@ -51,7 +52,7 @@
 				<!-- 하단 메뉴(버튼) -->
 				<tr>
 					<td colspan="4" align="center">
-						<button type="button" class="ViewButton" onclick="location.href='../board/Edit.jsp?num=${ param.lst }&title=${ dto.ttl }&content=${ dto.cntns }';">수 정</button>
+						<button type="button" id="editBtn" class="ViewButton">수 정</button>
 						<button type="button" class="List" onclick="location.href='../board/list';">목 록</button>
 						<button type="button" class="ViewButton" onclick="removeCheck();">삭 제</button>
 					</td>
@@ -99,4 +100,40 @@
 		</div>
 	</div>
 </body>
+<script>
+    var ttl = "${dto.ttl}";
+    var cntns = "${dto.cntns}";
+    
+    $('#editBtn').on("click", (e) => {
+        password = prompt("비밀번호를 입력하세요.");
+        if (password != null) {
+            $.ajax({
+                type: 'post',
+                url: 'http://localhost:8080/Nado/board/password',
+                dataType: 'text',
+                data: {
+                    lst: ${param.lst},
+                    ttl: ttl,
+                    cntns: cntns,
+                    pwd: password
+                },
+                success: function(data, textStatus) {
+                    if (data.check === 0) {
+                        console.log("check의 값은 : " + data.check);
+                        alert("비밀번호 불일치!"); 
+                    } else {
+                        console.log("check의 값은 : " + data.check);
+                        alert("비밀번호 일치!");
+                    }
+                },
+                error: function(data, textStatus) {
+                	console.log('전체 데이터:', data);
+                    console.log('check의 값은 : ' + data.check);
+                    console.log('error');
+                }
+            })
+        }
+    });
+</script>
+
 </html>

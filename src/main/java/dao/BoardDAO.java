@@ -229,6 +229,30 @@ public class BoardDAO extends DBConnPool{
 	}
 	
 	/**
+	 * Description : 게시글 수정/삭제 시 비밀번호 검증
+	 */
+	public int checkPassword(BoardDTO dto){
+		int check = 0;    //비밀번호 일치 여부 리턴 값, 0은 비밀번호 불일치, 1은 비밀번호 일치
+		String query = "SELECT bbrd_ttl, bbrd_cntns "
+					 + "FROM bbrd WHERE bbrd_lst = ? "
+					 + "AND (bbrd_pwd IS NULL OR bbrd_pwd = ?) ";
+		try{
+			psmt = con.prepareStatement(query);
+			psmt.setInt(1, dto.getLst());
+			psmt.setString(2, dto.getPwd());
+			rs = psmt.executeQuery();
+			
+			if(rs.next()){    //DB조회 결과 확인
+				check = 1;    //값이 조회된다면 비밀번호가 일치한 경우, check 값을 1로 변경
+			}
+		}catch(Exception e){
+			System.out.println("**비밀번호 검증 중  예외 발생**");
+			e.printStackTrace();
+		}
+		return check;
+	}
+	
+	/**
 	 * Description : 데이터베이스 연결 해제
 	 */
 	public void close(){

@@ -59,7 +59,7 @@
 										<!-- 번호 --> ${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}
 									</td>
 									<td>
-										<!-- 제목(링크) --> <a href="/view?lst=${ row.lst }">${ row.ttl }</a>
+										<!-- 제목(링크) --> <a href="../board/view?lst=${ row.lst }">${ row.ttl }</a>
 									</td>
 									<!-- 작성자 -->
 									<td>${ row.wrter }</td>

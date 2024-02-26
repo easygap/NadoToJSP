@@ -1,6 +1,5 @@
 /**
  * Description : 게시글 공통 클래스 
- *             암/복호화 함수 및 기타 공통 함수 정의
  * 작성일 : 2024.02.21
  * 작성자 : ljs
  * Input Argument:
@@ -8,6 +7,7 @@
  * 수정이력 :
  *      1) 2024.02.21 게시글 수 count 함수 추가
  *      2) 2024.02.21 게시글 List 저장 함수 추가
+ *      3) 2024.02.22 게시글 작성 함수 추가
  * 확인 사항 : 
  *      1) 
  */
@@ -152,25 +152,6 @@ public class BoardDAO extends DBConnPool{
 	}
 	
 	/**
-	 * Description : 동일 파일 존재 여부 체크
-	 */
-	public char searchFile(String fileName) {
-		String query = "SELECT * FROM FILES WHERE file_nm = '" + fileName + "'";
-		char yn = 'n';
-		try{
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(query);
-			if(rs.next() == true)
-				yn = 'y';
-
-		}catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("**파일 조회 중 예외 발생**");
-		}
-		return yn;    //첨부 파일 존재 여부 리턴
-	}
-	
-	/**
 	 * Description : 가장 최근 업로드한 게시글 번호
 	 */
 	public int recentBord() {
@@ -205,7 +186,7 @@ public class BoardDAO extends DBConnPool{
 	}
 	
 	/**
-	 * Description : 파일 업로드
+	 * Description : 게시글 상세보기
 	 */
 	public BoardDTO selectView(String lst){    //게시글 번호에 해당하는 게시글을 DTO에 담아 반환합니다.
 		BoardDTO dto = new BoardDTO();    //DTO 객체 생성

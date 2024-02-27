@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,10 +20,10 @@
 			<div id="UND_DV"></div>
 			
 			<!-- Board_edit.jsp 코드 시작 -->
-<form name="writeFrm" method="post" enctype="multipart/form-date"
+		<form name="writeFrm" method="post" enctype="multipart/form-date"
 		action="../board/edit" onsubmit="return validateForm(this);">
 		<input type="hidden" name="lst" value="${ dto.lst }" /> <input
-			type="hidden" name="filenm" value="${ dto.filenm }" /> 
+			type="hidden" name="filenm" value="${ dto.file_nm }" /> 
 
 		<table class="table" border="1" width="90%">
 			<tr>

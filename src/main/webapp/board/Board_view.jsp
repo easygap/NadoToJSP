@@ -119,7 +119,7 @@
                 },
                 success: function(data, textStatus) {
                 	var responseData = JSON.parse(data); // JSON 문자열을 객체로 변환
-                	let url = '../board/Board_edit.jsp?lst=${param.lst}'
+                	let url = '../board/edit?lst=${param.lst}'
                     if (responseData.check === 0) {    //비밀번호 불일치
                         console.log("check의 값은 : " + responseData.check);
                         alert("비밀번호 불일치!"); 

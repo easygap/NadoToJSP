@@ -44,8 +44,8 @@ public class BoardListController extends HttpServlet {
 		int totalCount = dao.selectCount(map);    //게시물 개수
 		
 		ServletContext application = getServletContext();    //페이징 처리
-		int pageSize = Integer.parseInt(application.getInitParameter("POSTS_PER_PAGE"));    //한 페이지에 출력할 게시글 수
-		int blockPage = Integer.parseInt(application.getInitParameter("PAGES_PER_BLOCK"));    //한 화면에 출력할 페이지 번호 수
+		int pageSize = Integer.parseInt(application.getInitParameter("POSTS_PER_PAGE"));    //한 페이지에 출력할 게시글 수, 10
+		int blockPage = Integer.parseInt(application.getInitParameter("PAGES_PER_BLOCK"));    //한 화면에 출력할 페이지 번호 수, 10
 		
 		int pageNum = 1;    //현재 페이지 기본값
 		String pageTemp = req.getParameter("pageNum");

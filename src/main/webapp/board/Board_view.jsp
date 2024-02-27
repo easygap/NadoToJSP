@@ -54,7 +54,7 @@
 					<td colspan="4" align="center">
 						<button type="button" id="editBtn" class="ViewButton">수 정</button>
 						<button type="button" class="List" onclick="location.href='../board/list';">목 록</button>
-						<button type="button" class="ViewButton" onclick="removeCheck();">삭 제</button>
+						<button type="button" id="delBtn" class="ViewButton" onclick="removeCheck();">삭 제</button>
 					</td>
 				</tr>
 			</table>
@@ -105,7 +105,7 @@
     var cntns = "${dto.cntns}";
     
     $('#editBtn').on("click", (e) => {
-        password = prompt("비밀번호를 입력하세요.");
+        password = prompt("게시글 수정을 위한 비밀번호를 입력하세요.");
         if (password != null) {
             $.ajax({
                 type: 'post',
@@ -118,12 +118,52 @@
                     pwd: password
                 },
                 success: function(data, textStatus) {
-                    if (data.check === 0) {
-                        console.log("check의 값은 : " + data.check);
+                	var responseData = JSON.parse(data); // JSON 문자열을 객체로 변환
+                	let url = '../board/Board_edit.jsp?lst=${param.lst}'
+                    if (responseData.check === 0) {    //비밀번호 불일치
+                        console.log("check의 값은 : " + responseData.check);
                         alert("비밀번호 불일치!"); 
-                    } else {
-                        console.log("check의 값은 : " + data.check);
-                        alert("비밀번호 일치!");
+                    } else {    //비밀번호 일치
+                        console.log("check의 값은 : " + responseData.check);
+                        alert("비밀번호 일치! 게시글 수정 페이지로 이동합니다.");
+                        location.replace(url);
+                    }
+                },
+                error: function(data, textStatus) {
+                	console.log('전체 데이터:', data);
+                    console.log('check의 값은 : ' + data.check);
+                    console.log('error');
+                }
+            })
+        }
+    });
+    
+    $('#delBtn').on("click", (e) => {
+        password = prompt("게시글 삭제를 위한 비밀번호를 입력하세요.");
+        if (password != null) {
+            $.ajax({
+                type: 'post',
+                url: 'http://localhost:8080/Nado/board/password',
+                dataType: 'text',
+                data: {
+                    lst: ${param.lst},
+                    ttl: ttl,
+                    cntns: cntns,
+                    pwd: password
+                },
+                success: function(data, textStatus) {
+                	var responseData = JSON.parse(data); // JSON 문자열을 객체로 변환
+                	let url = '../board/delete?lst=${param.lst}'
+                    if (responseData.check === 0) {    //비밀번호 불일치
+                        console.log("check의 값은 : " + responseData.check);
+                        alert("비밀번호 불일치!"); 
+                    } else {    //비밀번호 일치
+                    	console.log("check의 값은 : " + responseData.check);
+                    	if (confirm("정말 삭제하시겠습니까?") == true) {    //비밀번호 일치 시 게시글 삭제 여부 확인
+                    		location.replace(url);
+                            } else {
+                                return;
+                        }                        
                     }
                 },
                 error: function(data, textStatus) {

@@ -7,6 +7,33 @@
 <title>게시판 글쓰기</title>
 	<!-- css 양식 가져오기 -->
     <link href="../css/styles.css" rel="stylesheet" />
+<script>
+	function validateForm() {
+		var submitButton = document.getElementById("form");
+		
+		var nmCheck = /^[a-zA-Z0-9가-힣]{1,30}$/;
+		var ttlCheck = /^[a-zA-Z0-9가-힣!@#$%^&*()]{1,30}$/;
+		var cntnsCheck = /^[a-zA-Z0-9가-힣!@#$%^&*()]{1,1000}$/;
+		var pwdCheck = /^(?=.*[!@#$%^&*()])[a-zA-Z0-9가-힣!@#$%^&*()]{1,30}$/;
+		
+		var name = form.nm.value;
+		var title = form.ttl.value;
+		var content = form.cntns.value;
+		var password = form.pwd.value;
+		
+		if(nmCheck.test(name) !== true){
+			alert("닉네임은 특수문자 제외, 1~30자 까지 입력 가능합니다.");
+		}else if(ttlCheck.test(title) !== true){
+			alert("제목은 1~30자 까지 입력 가능합니다.");
+		}else if(cntnsCheck.test(content) !== true){
+			alert("내용은 1~1000자 까지 입력 가능합니다.");
+		}else if(pwdCheck.test(password) !== true){
+			alert("비밀번호는 특수문자를 반드시 포함한 1~20자 이어야 합니다.");
+		}else{
+			submitButton.submit();
+		}
+	} 
+</script>
 </head>
 <body>
 	<!-- 네비게이션 바 -->
@@ -18,7 +45,7 @@
 			<div class="container-fluid">
 				<div id="UND_DV"></div>
 
-				<form name="writeFrm" method="post" enctype="multipart/form-data"
+				<form name="writeFrm" id="form" method="post" enctype="multipart/form-data"
 					action="../board/write" onsubmit="return validateForm(this);">
 
 					<div class="mb-3">
@@ -49,7 +76,7 @@
 						<input
 							type="button" onclick="location.href='../board/list';"
 							class="List" value="취 소">
-						<input type="submit" class="write"
+						<input type="button" class="write" onClick="validateForm();"
 							value="등 록">
 					</div>
 				</form>

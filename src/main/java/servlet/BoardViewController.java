@@ -28,6 +28,7 @@ public class BoardViewController extends HttpServlet {
 			dto.setCntns(cntns.replaceAll("\r\n", "<br/>"));    //줄바꿈 처리
 		
 		req.setAttribute("dto", dto);
+		System.out.println("컨텐츠 내용 : " + dto.getCntns());
 		req.getRequestDispatcher("../board/Board_view.jsp").forward(req, resp);
 	}
 

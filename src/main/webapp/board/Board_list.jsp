@@ -43,7 +43,9 @@
 						<th width="8%">View</th>
 						<th width="13%">Date</th>
 					</tr>
-		
+					<tr>
+						<td colspan="6"><hr></td>
+					</tr>
 					<c:choose>
 						<c:when test="${ empty boardLists }">
 							<!-- 게시물이 없을 때 -->
@@ -54,6 +56,7 @@
 						<c:otherwise>
 							<!-- 게시물이 있을 때 -->
 							<c:forEach items="${ boardLists }" var="row" varStatus="loop">
+								<c:if test="${row.yn == null}">
 								<tr>
 									<td style="padding-left: 20px;">
 										<!-- 번호 --> ${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)}
@@ -66,8 +69,9 @@
 									<!-- 조회수 -->
 									<td>${ row.vew }</td>
 									<!-- 날짜 -->
-									<td style="padding-left: 25px;">${ row.wr_date }</td>
+									<td style="padding-left: 10px;">${ row.wr_date }</td>
 								</tr>
+								</c:if>
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>

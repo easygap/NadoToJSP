@@ -28,7 +28,6 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import common.DBConnPool;
-import domain.PassCheckVO;
 import dto.BoardDTO;
 import dto.FilesDTO;
 
@@ -192,7 +191,7 @@ public class BoardDAO extends DBConnPool{
 	public BoardDTO selectView(String lst){    //게시글 번호에 해당하는 게시글을 DTO에 담아 반환합니다.
 		BoardDTO dto = new BoardDTO();    //DTO 객체 생성
 		String query = "SELECT b.BBRD_TTL, b.BBRD_CNTNS, f.file_nm "
-					 + "FROM bbrd b JOIN files f "
+					 + "FROM bbrd b LEFT JOIN files f "
 					 + "ON b.bbrd_lst=f.bbrd_lst "
 					 + "WHERE b.bbrd_lst = ?";
 		try{
@@ -237,8 +236,6 @@ public class BoardDAO extends DBConnPool{
 		String query = "SELECT bbrd_ttl, bbrd_cntns "
 					 + "FROM bbrd WHERE bbrd_lst = ? "
 					 + "AND (bbrd_pwd IS NULL OR bbrd_pwd = ?) ";
-		
-		PassCheckVO checkVo = new PassCheckVO();
 		try{
 			psmt = con.prepareStatement(query);
 			psmt.setInt(1, dto.getLst());
@@ -254,6 +251,21 @@ public class BoardDAO extends DBConnPool{
 			e.printStackTrace();
 		}
 		return check;
+	}
+	
+	/**
+	 * Description : 게시글 삭제
+	 */
+	public void deleteBoard(BoardDTO dto){
+		String query = "UPDATE BBRD SET BBRD_YN = 'N' WHERE BBRD_LST = ?";
+		try{
+			psmt = con.prepareStatement(query);
+			psmt.setInt(1, dto.getLst());
+			psmt.executeQuery();
+		}catch(Exception e){
+			System.out.println("**게시글 삭제 중 예외 발생**");
+			e.printStackTrace();
+		}
 	}
 	
 	/**
